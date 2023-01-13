@@ -8,7 +8,9 @@
     "asbuild:debug": "asc assembly/index.ts --target debug",
     "asbuild:release": "asc assembly/index.ts --target release",
     "asbuild": "npm run asbuild:debug && npm run asbuild:release",
-    "start": "npx serve ."
+    "simplebuild": "asc assembly/index.ts -o build/main.wasm",
+    "start-server": "npx serve .",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +25,7 @@
   "devDependencies": {
     "assemblyscript": "^0.26.2"
   },
-  "type": "module",
+  "type": "commonjs",
   "exports": {
     ".": {
       "import": "./build/release.js",
