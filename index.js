@@ -83,6 +83,6 @@ async function readOPCUAWithVarVal(session, nodeId){
 }*/
 
 import {add,logString, connectOPC} from './main.js';
-logString('Hello from WASM');
-add(1,2);
+//logString('Hello from WASM');
+//add(1,2);
 connectOPC("RootFolder");

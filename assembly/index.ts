@@ -15,6 +15,7 @@ export function connectOPC(nodeToBrowse:string):void{
 
 //connectOPC("RootFolder")
 
-
+add(1,2);
+logString('Hello World')
 //connectOPCUA("RootFolder");
 //readOPCUAWithVarVal(session,'ns=3;s=\"QX_MPO_LightOven_Q9\"')
