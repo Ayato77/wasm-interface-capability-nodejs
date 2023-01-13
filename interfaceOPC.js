@@ -1,4 +1,4 @@
-/*import {
+import {
     OPCUAClient,
     MessageSecurityMode,
     SecurityPolicy,
@@ -6,30 +6,9 @@
     makeBrowsePath,
     ClientSubscription,
     TimestampsToReturn,
-    MonitoringParametersOptions,
-    ReadValueIdOptions,
     ClientMonitoredItem,
-    DataValue, ClientSession
-} from "node-opcua";*/
-/*const opcua = require('node-opcua');
-const fs = require('fs');
-
-const wasmBuffer = fs.readFileSync('./build/main.wasm');
-WebAssembly.instantiate(wasmBuffer, {env:{addjs, logInteger, connectOPCUA, readOPCUAWithVarVal}}).then(wasmModule => {
-    // Exported function live under instance.exports
-    const { add, logi} = wasmModule.instance.exports;
-    add(5, 6);
-    logi(2);
-});
-
-function addjs(a,b){
-    console.log(a+b)
-}
-
-function logInteger(i){
-    console.log("logInteger: " + i)
-}
-
+    DataValue
+} from "node-opcua";
 
 //OPCUA
 const connectionStrategy = {
@@ -40,18 +19,18 @@ const connectionStrategy = {
 const options = {
     applicationName: "MyClient",
     connectionStrategy: connectionStrategy,
-    securityMode: opcua.MessageSecurityMode.None,
-    securityPolicy: opcua.SecurityPolicy.None,
+    securityMode: MessageSecurityMode.None,
+    securityPolicy: SecurityPolicy.None,
     endpointMustExist: false,
 };
 
-const client = opcua.OPCUAClient.create(options);
+const client = OPCUAClient.create(options);
 //const endpointUrl = __getString(getOpcEndpoint());
 const endpointUrl = "opc.tcp://0.0.0.0:4840/freeopcua/server/" //local sample server url
 let session
 
 // step 1 : connect to
-async function connectOPCUA(nodeToBrowse){
+export async function connectOPCUA(nodeToBrowse){
     try{
         await client.connect(endpointUrl);
         console.log("connected !");
@@ -74,15 +53,10 @@ async function connectOPCUA(nodeToBrowse){
 }
 
 // step 4 : read a variable with readVariableValue
-async function readOPCUAWithVarVal(session, nodeId){
+export async function readOPCUAWithVarVal(session, nodeId){
     let ovenPowerStatus = await session.read({
         nodeId: nodeId,
-        attributeId: opcua.AttributeIds.Value
+        attributeId: AttributeIds.Value
     });
     console.log(" ovenPowerStatus = ", ovenPowerStatus.toString());
-}*/
-
-import {add,logString, connectOPC} from './main.js';
-logString('Hello from WASM');
-add(1,2);
-connectOPC("RootFolder");
+}
