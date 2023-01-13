@@ -15,7 +15,7 @@ export function connectOPC(nodeToBrowse:string):void{
 
 //connectOPC("RootFolder")
 
-add(1,2);
-logString('Hello World')
+add(1,2);//Works
+logString('Hello World');//Does not work with --binding option (string)!! ReferenceError: Cannot access 'memory' before initialization
 //connectOPCUA("RootFolder");
 //readOPCUAWithVarVal(session,'ns=3;s=\"QX_MPO_LightOven_Q9\"')
