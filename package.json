@@ -31,5 +31,9 @@
       "import": "./build/release.js",
       "types": "./build/release.d.ts"
     }
+  },
+  "dependencies": {
+    "mqtt": "^4.3.7",
+    "node-opcua": "^2.88.0"
   }
 }
