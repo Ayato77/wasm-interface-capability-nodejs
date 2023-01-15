@@ -1,18 +1,7 @@
-import {connectOPCUA, readOPCUAWithVarVal} from './interfaceOPC.js'
+import {addjs, logInteger, logstringJS} from "./simple_func.js";
+import {connectOPCUA} from "./interfaceOPC.js";
 
-function addjs(a,b){
-  console.log(a+b)
-}
-
-function logInteger(i){
-  console.log("logInteger: " + i)
-}
-
-function logstringJS(s){
-  console.log("logstring: " + s)
-}
-
-async function instantiate(module, imports = {}) {
+export async function instantiate(module, imports = {}) {
   const adaptedImports = {
     env: Object.assign(Object.create(globalThis), imports.env || {}, {
       logstringJS(s) {
@@ -45,11 +34,6 @@ async function instantiate(module, imports = {}) {
       // assembly/index/logString(~lib/string/String) => void
       s = __lowerString(s) || __notnull();
       exports.logString(s);
-    },
-    connectOPC(nodeToBrowse) {
-      // assembly/index/connectOPC(~lib/string/String) => void
-      nodeToBrowse = __lowerString(nodeToBrowse) || __notnull();
-      exports.connectOPC(nodeToBrowse);
     },
   }, exports);
   function __liftString(pointer) {
@@ -88,4 +72,4 @@ export const {
       catch { return globalThis.WebAssembly.compile(await (await import("node:fs/promises")).readFile(url)); }
     })(), {
     }
-))(new URL("build/main.wasm", import.meta.url));
+))(new URL("./build/main.wasm", import.meta.url));

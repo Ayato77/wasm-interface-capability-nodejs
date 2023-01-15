@@ -10,7 +10,7 @@
     "asbuild": "npm run asbuild:debug && npm run asbuild:release",
     "simplebuild": "asc assembly/index.ts -o build/main.wasm",
     "refbuild": "asc assembly/index.ts --enable reference-types -o build/main.wasm",
-    "bindbuild": "asc assembly/index.ts --bindings -o build/main.wasm",
+    "bindbuild": "asc assembly/index.ts --bindings raw -o build/main.wasm",
     "start-server": "npx serve .",
     "start": "node index.js"
   },

@@ -9,13 +9,12 @@ export function logString(s:string): void {
   logstringJS(s);
 }
 
-export function connectOPC(nodeToBrowse:string):void{
-  connectOPCUA(nodeToBrowse);
+export function connectOPC():void{
+  connectOPCUA("RootFolder");
 }
 
 //connectOPC("RootFolder")
 
-add(1,2);//Works
-logString('Hello World');//Does not work with --binding option (string)!! ReferenceError: Cannot access 'memory' before initialization
-//connectOPCUA("RootFolder");
+//add(1,2);//Works
+//logString('Hello World');//Does not work with --binding option (string)!! ReferenceError: Cannot access 'memory' before initialization
 //readOPCUAWithVarVal(session,'ns=3;s=\"QX_MPO_LightOven_Q9\"')
