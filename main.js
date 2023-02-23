@@ -1,5 +1,5 @@
 import {addjs, logInteger, logstringJS} from "./simple_func.js";
-import {connectOPCUA} from "./interfaceOPC.js";
+import {readOPCUAWithVarVal} from "./interfaceOPC.js";
 
 export async function instantiate(module, imports = {}) {
   const adaptedImports = {
@@ -9,10 +9,11 @@ export async function instantiate(module, imports = {}) {
         s = __liftString(s >>> 0);
         logstringJS(s);
       },
-      connectOPCUA(nodeToBrowse) {
-        // assembly/env/connectOPCUA(~lib/string/String) => void
+      readOPCUAWithVarVal(nodeToBrowse, nodeId) {
+        // assembly/env/readOPCUAWithVarVal(~lib/string/String, ~lib/string/String) => void
         nodeToBrowse = __liftString(nodeToBrowse >>> 0);
-        connectOPCUA(nodeToBrowse);
+        nodeId = __liftString(nodeId >>> 0);
+        readOPCUAWithVarVal(nodeToBrowse, nodeId);
       },
       abort(message, fileName, lineNumber, columnNumber) {
         // ~lib/builtins/abort(~lib/string/String | null?, ~lib/string/String | null?, u32?, u32?) => void
@@ -24,7 +25,7 @@ export async function instantiate(module, imports = {}) {
           // @external.js
           throw Error(`${message} in ${fileName}:${lineNumber}:${columnNumber}`);
         })();
-      },addjs, logInteger,
+      },addjs, logInteger
     }),
   };
   const { exports } = await WebAssembly.instantiate(module, adaptedImports);

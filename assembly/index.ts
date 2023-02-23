@@ -1,5 +1,5 @@
 // The entry file of your WebAssembly module.
-import {addjs, logInteger, connectOPCUA, logstringJS} from "./env";
+import {addjs, logInteger, logstringJS, readOPCUAWithVarVal} from "./env";
 
 export function add(a: i32, b: i32): void {
   addjs(a,b);
@@ -10,10 +10,9 @@ export function logString(s:string): void {
 }
 
 export function connectOPC():void{
-  connectOPCUA("RootFolder");
+    readOPCUAWithVarVal("RootFolder", 'ns=3;s=\"QX_MPO_LightOven_Q9\"')
 }
-
-//connectOPC("RootFolder")
+//connectOPCUA("RootFolder");
 
 //add(1,2);//Works
 //logString('Hello World');//Does not work with --binding option (string)!! ReferenceError: Cannot access 'memory' before initialization

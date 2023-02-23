@@ -52,8 +52,11 @@ export async function connectOPCUA(nodeToBrowse){
     }
 }
 
-// step 4 : read a variable with readVariableValue
-export async function readOPCUAWithVarVal(session, nodeId){
+export async function readOPCUAWithVarVal(nodeToBrowse, nodeId){
+    console.log("readOPCUAWithVarVal is called!!")
+
+    await connectOPCUA(nodeToBrowse)
+
     let ovenPowerStatus = await session.read({
         nodeId: nodeId,
         attributeId: AttributeIds.Value
