@@ -1,5 +1,5 @@
 import {addjs, logInteger, logstringJS} from "./simple_func.js";
-import {readOPCUAWithVarVal} from "./interfaceOPC.js";
+import {readOPCUAWithVarVal, subscribeOPCUAWithNodeId} from "./interfaceOPC.js";
 
 export async function instantiate(module, imports = {}) {
   const adaptedImports = {
@@ -15,6 +15,12 @@ export async function instantiate(module, imports = {}) {
         nodeId = __liftString(nodeId >>> 0);
         readOPCUAWithVarVal(nodeToBrowse, nodeId);
       },
+      subscribeOPCUAWithNodeId(nodeToBrowse, nodeId) {
+        // assembly/env/subscribeOPCUAWithNodeId(~lib/string/String, ~lib/string/String) => void
+        nodeToBrowse = __liftString(nodeToBrowse >>> 0);
+        nodeId = __liftString(nodeId >>> 0);
+        subscribeOPCUAWithNodeId(nodeToBrowse, nodeId);
+      },
       abort(message, fileName, lineNumber, columnNumber) {
         // ~lib/builtins/abort(~lib/string/String | null?, ~lib/string/String | null?, u32?, u32?) => void
         message = __liftString(message >>> 0);
@@ -25,7 +31,7 @@ export async function instantiate(module, imports = {}) {
           // @external.js
           throw Error(`${message} in ${fileName}:${lineNumber}:${columnNumber}`);
         })();
-      },addjs, logInteger
+      }, addjs, logInteger
     }),
   };
   const { exports } = await WebAssembly.instantiate(module, adaptedImports);
@@ -66,7 +72,8 @@ export const {
   memory,
   add,
   logString,
-  connectOPC
+  singleReadOPC,
+  subscribeOPC
 } = await (async url => instantiate(
     await (async () => {
       try { return await globalThis.WebAssembly.compileStreaming(globalThis.fetch(url)); }

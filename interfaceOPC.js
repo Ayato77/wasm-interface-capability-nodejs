@@ -63,3 +63,57 @@ export async function readOPCUAWithVarVal(nodeToBrowse, nodeId){
     });
     console.log(" ovenPowerStatus = ", ovenPowerStatus.toString());
 }
+
+export async function subscribeOPCUAWithNodeId(nodeToBrowse, nodeId){
+    console.log("subscribeOPCUAWithNodeId is called!!")
+
+    await connectOPCUA(nodeToBrowse)
+
+    // step 5: install a subscription and install a monitored item for 10 seconds
+    const subscription = ClientSubscription.create(session, {
+        requestedPublishingInterval: 1000,
+        requestedLifetimeCount: 100,
+        requestedMaxKeepAliveCount: 10,
+        maxNotificationsPerPublish: 100,
+        publishingEnabled: true,
+        priority: 10
+    });
+
+    subscription
+        .on("started", function() {
+            console.log(
+                "subscription started for 2 seconds - subscriptionId=",
+                subscription.subscriptionId
+            );
+        })
+        .on("keepalive", function() {
+            console.log("keepalive");
+        })
+        .on("terminated", function() {
+            console.log("terminated");
+        });
+
+    //monitor the oven's power status
+    const itemToMonitor = {
+        nodeId: nodeId,
+        attributeId: AttributeIds.Value
+    };
+
+
+    const parameters = {
+        samplingInterval: 100,
+        discardOldest: true,
+        queueSize: 10
+    };
+
+    const monitoredItem = ClientMonitoredItem.create(
+        subscription,
+        itemToMonitor,
+        parameters,
+        TimestampsToReturn.Both
+    );
+
+    monitoredItem.on("changed", async (dataValue) => {
+        console.log(" value has changed (oven turns on/off) : ", dataValue.value.value.toString());
+    });
+}
