@@ -1,5 +1,6 @@
 import {addjs, logInteger, logstringJS} from "./simple_func.js";
 import {readOPCUAWithVarVal, subscribeOPCUAWithNodeId} from "./interfaceOPC.js";
+import  {mqttPublish, mqttSubscribe} from "./mqtt-client.js"
 
 export async function instantiate(module, imports = {}) {
   const adaptedImports = {
@@ -20,6 +21,19 @@ export async function instantiate(module, imports = {}) {
         nodeToBrowse = __liftString(nodeToBrowse >>> 0);
         nodeId = __liftString(nodeId >>> 0);
         subscribeOPCUAWithNodeId(nodeToBrowse, nodeId);
+      },
+      mqttPublish(topic, message, optionJSONString) {
+        // assembly/env/mqttPublish(~lib/string/String, ~lib/string/String, ~lib/string/String) => void
+        topic = __liftString(topic >>> 0);
+        message = __liftString(message >>> 0);
+        optionJSONString = __liftString(optionJSONString >>> 0);
+        mqttPublish(topic, message, optionJSONString);
+      },
+      mqttSubscribe(topic, optionJSONString) {
+        // assembly/env/mqttSubscribe(~lib/string/String, ~lib/string/String) => void
+        topic = __liftString(topic >>> 0);
+        optionJSONString = __liftString(optionJSONString >>> 0);
+        mqttSubscribe(topic, optionJSONString);
       },
       abort(message, fileName, lineNumber, columnNumber) {
         // ~lib/builtins/abort(~lib/string/String | null?, ~lib/string/String | null?, u32?, u32?) => void
@@ -73,7 +87,9 @@ export const {
   add,
   logString,
   singleReadOPC,
-  subscribeOPC
+  subscribeOPC,
+  mqttPublishWasm,
+  mqttSubscribeWasm
 } = await (async url => instantiate(
     await (async () => {
       try { return await globalThis.WebAssembly.compileStreaming(globalThis.fetch(url)); }

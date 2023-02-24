@@ -1,5 +1,15 @@
 // The entry file of your WebAssembly module.
-import {addjs, logInteger, logstringJS, readOPCUAWithVarVal, subscribeOPCUAWithNodeId} from "./env";
+import {
+    addjs,
+    logInteger,
+    logstringJS,
+    readOPCUAWithVarVal,
+    subscribeOPCUAWithNodeId,
+    mqttPublish,
+    mqttSubscribe
+} from "./env";
+
+const mqttOptionJSON:string = "{\"clientId\":\"wasmNode\",\"port\":1883,\"host\":\"localhost\",\"rejectUnauthorized\":false,\"protocol\": \"mqtt\",\"reconnectPeriod\":1000}"
 
 export function add(a: i32, b: i32): void {
   addjs(a,b);
@@ -16,7 +26,14 @@ export function singleReadOPC():void{
 export function subscribeOPC():void{
     subscribeOPCUAWithNodeId("RootFolder", 'ns=3;s=\"QX_MPO_LightOven_Q9\"')
 }
-//connectOPCUA("RootFolder");
+
+export function mqttPublishWasm():void{
+    mqttPublish('wasm', 'Hello, I am Wasm module', mqttOptionJSON)
+}
+
+export function mqttSubscribeWasm():void{
+    mqttSubscribe('wasm', mqttOptionJSON)
+}
 
 //add(1,2);//Works
 //logString('Hello World');//Does not work with --binding option (string)!! ReferenceError: Cannot access 'memory' before initialization

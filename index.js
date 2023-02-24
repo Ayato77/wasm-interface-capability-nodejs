@@ -15,8 +15,16 @@ function logstringJS(s){
 
 const wasmBuffer = readFileSync('./build/main.wasm')
 const exports = await instantiate(await WebAssembly.compile(wasmBuffer));
-import {add,logString, singleReadOPC, subscribeOPC} from './instantiate.js';
+import {
+    add,
+    logString,
+    singleReadOPC,
+    subscribeOPC,
+    mqttPublishWasm,
+    mqttSubscribeWasm
+} from './instantiate.js';
 //logString('Hello from WASM');
 //add(1,2);
-subscribeOPC();
 logString('Hello');
+//subscribeOPC();
+mqttPublishWasm();
