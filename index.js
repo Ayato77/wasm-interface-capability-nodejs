@@ -18,13 +18,19 @@ const exports = await instantiate(await WebAssembly.compile(wasmBuffer));
 import {
     add,
     logString,
-    singleReadOPC,
-    subscribeOPC,
-    mqttPublishWasm,
-    mqttSubscribeWasm
+    getUsedInterfaceList,
+    wasmMqttProcess,
+    wasmOpcuaProcess
 } from './instantiate.js';
-//logString('Hello from WASM');
-//add(1,2);
+
 logString('Hello');
-//subscribeOPC();
-mqttPublishWasm();
+const wasmInterfaceList = JSON.parse(getUsedInterfaceList());
+console.log(wasmInterfaceList)
+
+if(wasmInterfaceList['mqtt']){
+    wasmMqttProcess();
+}
+
+if(wasmInterfaceList['opcua']){
+    wasmOpcuaProcess();
+}

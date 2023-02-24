@@ -10,12 +10,6 @@ export async function instantiate(module, imports = {}) {
         s = __liftString(s >>> 0);
         logstringJS(s);
       },
-      readOPCUAWithVarVal(nodeToBrowse, nodeId) {
-        // assembly/env/readOPCUAWithVarVal(~lib/string/String, ~lib/string/String) => void
-        nodeToBrowse = __liftString(nodeToBrowse >>> 0);
-        nodeId = __liftString(nodeId >>> 0);
-        readOPCUAWithVarVal(nodeToBrowse, nodeId);
-      },
       subscribeOPCUAWithNodeId(nodeToBrowse, nodeId) {
         // assembly/env/subscribeOPCUAWithNodeId(~lib/string/String, ~lib/string/String) => void
         nodeToBrowse = __liftString(nodeToBrowse >>> 0);
@@ -28,12 +22,6 @@ export async function instantiate(module, imports = {}) {
         message = __liftString(message >>> 0);
         optionJSONString = __liftString(optionJSONString >>> 0);
         mqttPublish(topic, message, optionJSONString);
-      },
-      mqttSubscribe(topic, optionJSONString) {
-        // assembly/env/mqttSubscribe(~lib/string/String, ~lib/string/String) => void
-        topic = __liftString(topic >>> 0);
-        optionJSONString = __liftString(optionJSONString >>> 0);
-        mqttSubscribe(topic, optionJSONString);
       },
       abort(message, fileName, lineNumber, columnNumber) {
         // ~lib/builtins/abort(~lib/string/String | null?, ~lib/string/String | null?, u32?, u32?) => void
@@ -51,6 +39,10 @@ export async function instantiate(module, imports = {}) {
   const { exports } = await WebAssembly.instantiate(module, adaptedImports);
   const memory = exports.memory || imports.env.memory;
   const adaptedExports = Object.setPrototypeOf({
+    getUsedInterfaceList() {
+      // assembly/index/getUsedInterfaceList() => ~lib/string/String
+      return __liftString(exports.getUsedInterfaceList() >>> 0);
+    },
     logString(s) {
       // assembly/index/logString(~lib/string/String) => void
       s = __lowerString(s) || __notnull();
@@ -84,12 +76,11 @@ export async function instantiate(module, imports = {}) {
 }
 export const {
   memory,
+  getUsedInterfaceList,
   add,
   logString,
-  singleReadOPC,
-  subscribeOPC,
-  mqttPublishWasm,
-  mqttSubscribeWasm
+  wasmOpcuaProcess,
+  wasmMqttProcess
 } = await (async url => instantiate(
     await (async () => {
       try { return await globalThis.WebAssembly.compileStreaming(globalThis.fetch(url)); }
