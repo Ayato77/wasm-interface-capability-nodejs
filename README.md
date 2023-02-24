@@ -9,3 +9,6 @@ Passing String from WASM to JavaScript (and viceversa) requires compile with a o
 
 ## OPCUA
 Calling OPCUA functions based on `NodeOPCUA` from WASM is possible. The current implementation provides two functions: single read with a nodeID and subscription. 
+
+## MQTT
+MQTT subscribe-publish functions based on `MQTT.js` are called by Wasm. Wasm just gives `String` parameters like topics and messages to the host language functions (JavaScript).
