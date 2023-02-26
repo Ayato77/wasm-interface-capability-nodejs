@@ -19,3 +19,6 @@ main/esp32/Secret.h
 
 #
 tests/
+
+# rust
+target/
